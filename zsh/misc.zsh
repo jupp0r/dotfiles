@@ -28,9 +28,12 @@ if [ -d /usr/local/sbin ] ; then
 	PATH=/usr/local/sbin:$PATH
 fi
 
-alias aquamacs='/Applications/Aquamacs.app/Contents/MacOS/Aquamacs'
-
-export EDITOR='/Applications/Aquamacs.app/Contents/MacOS/Aquamacs'
+# use emacs server if found running, otherwise standard emacs
+if [ -d /Applications/Emacs.app/Contents/MacOS ] ; then
+    export EDITOR="/Applications/Emacs.app/Contents/MacOS/Emacs"
+else
+    export EDITOR="emacs"
+fi
 
 export PATH MANPATH MONO_PATH PERL5LIB PKG_CONFIG_PATH
 
