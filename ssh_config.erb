@@ -7,6 +7,14 @@
     IdentityFile <%= host['identity'] %>
   <% end %>
 
+  <% if host['forwardx11'] %>
+    ForwardX11 <%= host['forwardx11'] %>
+  <% end %>
+
+  <% if host['port'] %>
+    Port <%= host['port'] %>
+  <% end %>
+
   <% if host['alive'] %>
     <% if host['alive']['interval'] %>
       ServerAliveInterval <%= host['alive']['interval'] %>

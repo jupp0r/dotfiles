@@ -1,45 +1,10 @@
-<% git_functions_dir = "#{build_path}/git" %>
-
 [user]
-  name = <%= config['git']['config']['name'] %>
-  email = <%= config['git']['config']['email'] %>
-
-[alias]
-  co = checkout
-  st = status -sb
-
-  wtf = !<%= git_functions_dir %>/git-wtf
-  rank-contributors = !<%= git_functions_dir %>/git-rank-contributors
-  show-merges = !<%= git_functions_dir %>/git-show-merges
-
-  # Only show new commits since my last commit
-  news = !git log --pretty=format:'%Cgreen%h%Creset %s [%Cblue%an%Creset, %Cred%ar%Creset]%Creset' $(git log --author='<%= config['git']['config']['name'] %>' --pretty=format:%H -n1)..
-
-  # Show diff of new commits
-  news-diff = !git diff $(git log --author='<%= config['git']['config']['name'] %>' --pretty=format:%H -n1)..
-
-  # Only show my commits with datestamps
-  mine = !git log --pretty=format:"%h' '%ad' '%s" --date=short --date-order --author='<%= config['git']['config']['name'] %>'
-
-  # Push and track
-  publish = push -u
-[color]
-  diff = auto
-  status = auto
-  branch = auto
-  ui = auto
-
+	name = <%= config['git']['config']['name'] %>
+	email = <%= config['git']['config']['email'] %>
+[alias] 
+	tree = log --graph --all --decorate --pretty=oneline --abbrev-commit
+	featuremenge = merge --no-ff
+[branch]
+	autosetupmerge = true
 [core]
-  excludesfile = <%= config['symlinks_path'] %>/.gitignore
-  editor = <%= config['zsh']['editor'] %>
-  autocrlf = input
-
-[apply]
-  whitespace = nowarn
-
-[github]
-  user = <%= config['github']['user'] %>
-  token = <%= config['github']['token'] %>
-
-[push]
-  default = current
+	excludesfile = <%= config['symlinks_path'] %>/.gitignore
