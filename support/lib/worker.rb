@@ -40,9 +40,13 @@ class Worker
 
   def chmod(bits, path)
     @logger.report('Chmod', bits.to_s(8), :to => path)
-
+    
     unless @dry
-      FileUtils.chmod bits, path
+      if File.directory? path
+        FileUtils.chmod_R bits, path
+      else
+        FileUtils.chmod bits, path
+      end
     end
   end
 
@@ -72,6 +76,16 @@ class Worker
 
     unless @dry
       goto_path(executable_dir) { `./#{executable_name}` }
+    end
+  end
+
+  def go_and_run_all(executable_path)
+    goto_path(executable_path) do
+      Dir.foreach(".") do |f|
+ 	unless @dry
+      	  %{'./#{f}'} unless File.directory?(f)
+      	end
+      end
     end
   end
 

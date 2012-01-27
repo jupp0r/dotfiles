@@ -23,6 +23,10 @@ class Registry
     "#{build_path}/osx"
   end
 
+  def osx_src_path
+    "#{dotfiles_path}/support/osx"
+  end
+
   def namespaces
     ::Rake.application.tasks.map(&:name).select{|t| t.include?(':')}.map{|t| t.split(':').first}.uniq
   end

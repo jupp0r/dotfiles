@@ -16,7 +16,8 @@ worker   = Worker.new(logger, :dry => ENV['DRY'])
 desc 'Setup everything first time or update things upon change'
 task :default => [ :download,
                    :build,
-                   :install ]
+                   :install,
+                   :osx ]
 
 task :download do
   if manager.any_submodules_missing?
@@ -70,8 +71,10 @@ end
 desc 'Reconfigure OSX settings'
 task :osx => :build do
   logger.denote 'Configuring osx...' do
+    worker.symlink "#{registry.osx_src_path}", 
+                        "#{registry.osx_path}"       
     worker.chmod(0755, registry.osx_path)
-    worker.go_and_run(registry.osx_path)
+    worker.go_and_run_all(registry.osx_path)
   end
 end
 
