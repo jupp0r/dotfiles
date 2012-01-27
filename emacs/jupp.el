@@ -1,10 +1,10 @@
 ; disable autosave
 (setq make-backup-files nil)
 
-; stop creating those backup~ files 
-(setq make-backup-files nil) 
+; stop creating those backup~ files
+(setq make-backup-files nil)
 ; stop creating those #auto-save# files
-(setq auto-save-default nil) 
+(setq auto-save-default nil)
 
 ; allow for German umlauts via Alt-U <letter>
 (setq mac-option-modifier nil)
@@ -20,3 +20,15 @@
 (setq erlang-root-dir "/usr/local/Cellar/erlang/R14B04")
 (setq exec-path (cons "/usr/local/Cellar/erlang/R14B04/bin" exec-path))
 (require 'erlang-start)
+
+; window startup size
+(add-to-list 'default-frame-alist '(left . 70))
+(add-to-list 'default-frame-alist '(top . 0))
+(add-to-list 'default-frame-alist '(height . 50))
+(add-to-list 'default-frame-alist '(width . 155))
+
+; cursor as bar
+(add-to-list 'default-frame-alist '(cursor-type . box))
+
+; I prefer the normal file open dialog
+(substitute-key-definition 'prelude-recentf-ido-find-file 'find-file (current-global-map))
