@@ -3,6 +3,11 @@ CONFIG_PATH = 'support/config.yml'
 require 'yaml'
 require 'erb'
 require 'fileutils'
+require 'rbconfig'
+
+def is_mac?
+  RbConfig::CONFIG['target_os'] =~ /darwin/
+end
 
 %w(registry manager worker logger).each do |dep|
   require "./support/lib/#{dep}"
@@ -16,8 +21,8 @@ worker   = Worker.new(logger, :dry => ENV['DRY'])
 desc 'Setup everything first time or update things upon change'
 task :default => [ :download,
                    :build,
-                   :install,
-                   :osx ]
+                   :install ]
+task :default => [ :osx ] if is_mac?
 
 task :download do
   if manager.any_submodules_missing?
