@@ -1,31 +1,36 @@
 # Customize to your needs...
 if [ -d ~/bin ] ; then
-	PATH=~/bin:"${PATH}"
+    PATH=~/bin:"${PATH}"
 fi
 
 if [ -d ~/lib ] ; then
-	LD_LIBRARY_PATH=~/lib:"${LD_LIBRARY_PATH}"
-	MONO_PATH=~/lib:"${MONO_PATH}"
-	PERL5LIB=~/lib/perl5:"${PERL5LIB}"
-	PKG_CONFIG_PATH=$HOME/lib/pkgconfig:"${PKG_CONFIG_PATH}"
+    LD_LIBRARY_PATH=~/lib:"${LD_LIBRARY_PATH}"
+    MONO_PATH=~/lib:"${MONO_PATH}"
+    PERL5LIB=~/lib/perl5:"${PERL5LIB}"
+    PKG_CONFIG_PATH=$HOME/lib/pkgconfig:"${PKG_CONFIG_PATH}"
 fi
 
 if [ -d ~/share ] ; then
-	PERL5LIB=~/share/perl5:"${PERL5LIB}"
-	MANPATH=~/share/man:"${MANPATH}"
+    PERL5LIB=~/share/perl5:"${PERL5LIB}"
+    MANPATH=~/share/man:"${MANPATH}"
 fi
 
 # local manpages
 if [ -d /opt/local/man ] ; then
-	MANPATH=$MANPATH:/opt/local/man
+    MANPATH=$MANPATH:/opt/local/man
 fi
 
 #homebrew stuff
 if [ -d /usr/local/bin ] ; then
-	PATH=/usr/local/bin:$PATH
+    PATH=/usr/local/bin:$PATH
 fi
 if [ -d /usr/local/sbin ] ; then
-	PATH=/usr/local/sbin:$PATH
+    PATH=/usr/local/sbin:$PATH
+fi
+
+#ruby gems bin dir
+if [ -d /usr/local/Cellar/ruby/1.9.3-p0/bin ] ; then
+    PATH=/usr/local/Cellar/ruby/1.9.3-p0/bin:$PATH
 fi
 
 # use emacs server if found running, otherwise standard emacs
