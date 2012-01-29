@@ -16,10 +16,13 @@
 (setq tab-width 2)
 
 ; erlang mode
-(setq load-path (cons  "/usr/local/Cellar/erlang/R14B04/lib/erlang/lib/tools-2.6.6.5/emacs" load-path))
-(setq erlang-root-dir "/usr/local/Cellar/erlang/R14B04")
-(setq exec-path (cons "/usr/local/Cellar/erlang/R14B04/bin" exec-path))
-(require 'erlang-start)
+(let ((erlang-emacs-dir "/usr/local/Cellar/erlang/R14B04/lib/erlang/lib/tools-2.6.6.5/emacs"))
+    (when (file-exists-p erlang-emacs-dir)
+            (add-to-list 'load-path erlang-emacs-dir)
+            (setq erlang-root-dir "/usr/local/Cellar/erlang/R14B04")
+            (setq exec-path (cons "/usr/local/Cellar/erlang/R14B04/bin" exec-path))
+            (require 'erlang-start)))
+
 
 ; window startup size
 (add-to-list 'default-frame-alist '(left . 70))
@@ -30,5 +33,14 @@
 ; cursor as bar
 (add-to-list 'default-frame-alist '(cursor-type . box))
 
-; I prefer the normal file open dialog
-(substitute-key-definition 'prelude-recentf-ido-find-file 'find-file (current-global-map))
+(let ((rsense-home-dir "/usr/local/Cellar/rsense/0.3/libexec"))
+    (when (file-exists-p rsense-home-dir)
+        (setq rsense-home rsense-home-dir)
+        (add-to-list 'load-path (concat rsense-home-dir "/etc"))
+        (require 'rsense)))
+
+(let ((auto-complete-dir (concat prelude-vendor-dir "/auto-complete")))
+    (setq ac-dictionary-directories ())
+    (add-to-list 'ac-dictionary-directories (concat auto-complete-dir "/dict"))
+    (require 'auto-complete-config)
+    (ac-config-default))
