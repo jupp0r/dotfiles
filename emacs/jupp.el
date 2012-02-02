@@ -33,14 +33,21 @@
 ; cursor as bar
 (add-to-list 'default-frame-alist '(cursor-type . box))
 
+; rsense
 (let ((rsense-home-dir "/usr/local/Cellar/rsense/0.3/libexec"))
     (when (file-exists-p rsense-home-dir)
         (setq rsense-home rsense-home-dir)
         (add-to-list 'load-path (concat rsense-home-dir "/etc"))
         (require 'rsense)))
 
+; auto-complete-clang
 (let ((auto-complete-dir (concat prelude-vendor-dir "/auto-complete")))
     (setq ac-dictionary-directories ())
     (add-to-list 'ac-dictionary-directories (concat auto-complete-dir "/dict"))
     (require 'auto-complete-config)
     (ac-config-default))
+
+; clang autocomplete
+(let ((auto-complete-clang-dir (concat prelude-vendor-dir "auto-complete-clang")))
+    (add-to-list 'load-path auto-complete-clang-dir)
+    (require 'auto-complete-clang))
