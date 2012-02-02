@@ -48,6 +48,6 @@
     (ac-config-default))
 
 ; clang autocomplete
-(let ((auto-complete-clang-dir (concat prelude-vendor-dir "auto-complete-clang")))
+(let ((auto-complete-clang-dir (concat prelude-vendor-dir "/auto-complete-clang")))
     (add-to-list 'load-path auto-complete-clang-dir)
     (require 'auto-complete-clang))
