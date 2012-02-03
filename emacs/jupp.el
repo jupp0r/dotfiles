@@ -51,3 +51,9 @@
 (let ((auto-complete-clang-dir (concat prelude-vendor-dir "/auto-complete-clang")))
     (add-to-list 'load-path auto-complete-clang-dir)
     (require 'auto-complete-clang))
+
+; tab stops
+(setq-default tab-width 2)
+(setq-default indent-tabs-mode nil)
+(setq-default c-basic-offset 4)
+(setq-default ruby-basic-offset 2)
