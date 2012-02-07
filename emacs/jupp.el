@@ -21,8 +21,15 @@
             (add-to-list 'load-path erlang-emacs-dir)
             (setq erlang-root-dir "/usr/local/Cellar/erlang/R14B04")
             (setq exec-path (cons "/usr/local/Cellar/erlang/R14B04/bin" exec-path))
-            (require 'erlang-start)))
-
+            (require 'erlang-start)
+            (require 'erlang-eunit)
+            (add-hook 'erlang-mode-hook
+                      '(lambda ()
+                         (local-set-key (kbd "C-c C-t")
+                                        '(lambda ()
+                                           (interactive)
+                                           (save-buffer)
+                                           (erlang-eunit-compile-and-run-module-tests)))))))
 
 ; window startup size
 (add-to-list 'default-frame-alist '(left . 70))
@@ -57,3 +64,7 @@
 (setq-default indent-tabs-mode nil)
 (setq-default c-basic-offset 4)
 (setq-default ruby-basic-offset 2)
+
+; start edit server, allows to edit stuff in browser in emacs
+(require 'edit-server)
+(edit-server-start)
