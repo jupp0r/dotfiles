@@ -106,6 +106,18 @@
 (setq font-lock-unfontify-region-function 'ansi-color-unfontify-region)
 
 ;; workgroups
-(setq wg-prefix-key (kbd "C-z"))
-(workgroups-mode 1)
-(wg-load "~/.workgroups")
+;; this is a really ugly fix for a broken el-get recipe for workgroups
+(let ((workgroup-install-dir "/Users/jupp/.emacs.d/el-get/workgroups")
+      (workgroup-custom-setting-file "/Users/jupp/.workgroups/beleg"))
+  (when (file-exists-p workgroup-install-dir)
+    (add-to-list 'load-path workgroup-install-dir)
+    (require 'workgroups)
+    (setq wg-prefix-key (kbd "C-z"))
+    (workgroups-mode 1)
+    (when (file-exists-p workgroup-custom-setting-file)
+      (wg-load workgroup-custom-setting-file))))
+
+;; I use google C coding style
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+(add-hook 'c-mode-common-hook 'google-make-newline-indent)
+
