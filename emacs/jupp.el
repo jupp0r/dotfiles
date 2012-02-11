@@ -68,3 +68,44 @@
 ; start edit server, allows to edit stuff in browser in emacs
 (require 'edit-server)
 (edit-server-start)
+
+;; colorize compilation buffer
+(require 'ansi-color)
+(setq ansi-color-for-comint-mode t)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+;; don't ask for compilation command
+(setq compilation-read-command nil)
+
+;; compile key
+(defun c-w-c ()
+  (interactive)
+  (setq current-prefix-arg '(4))
+  (call-interactively 'compile))
+(global-set-key (kbd "C-x c") 'c-w-c)
+
+;; no sound, but visible bell
+(setq-default visible-bell t)
+
+;; auto-scroll compilation buffer
+(setq compilation-scroll-output t)
+(setq compile-auto-highlight t)
+
+;; turn on font-lock mode
+(global-font-lock-mode t)
+(setq font-lock-maximum-decoration t)
+
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+(prefer-coding-system 'utf-8)
+
+(setq font-lock-unfontify-region-function 'ansi-color-unfontify-region)
+
+;; workgroups
+(setq wg-prefix-key (kbd "C-z"))
+(workgroups-mode 1)
+(wg-load "~/.workgroups")

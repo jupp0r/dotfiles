@@ -40,6 +40,9 @@ else
     export EDITOR="emacs"
 fi
 
+# hashes
+hash -d beleg=~/uni/grosser_beleg/workspace/SystemModel_cmake
+
 export PATH MANPATH MONO_PATH PERL5LIB PKG_CONFIG_PATH
 
 setopt complete_in_word       # ~/Dev/pro -> <Tab> -> ~/Development/project
