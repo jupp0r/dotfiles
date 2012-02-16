@@ -66,12 +66,8 @@
 ;; don't ask for compilation command
 (setq compilation-read-command nil)
 
-;; compile key
-(defun c-w-c ()
-  (interactive)
-  (setq current-prefix-arg '(4))
-  (call-interactively 'compile))
-(global-set-key (kbd "C-x c") 'c-w-c)
+;; compile key, maybe a little dangerous so close to quit
+(global-set-key (kbd "C-c c") 'compile)
 
 ;; no sound, but visible bell
 (setq-default visible-bell t)
@@ -95,3 +91,16 @@
 ;; I use google C coding style
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 (add-hook 'c-mode-common-hook 'google-make-newline-indent)
+
+;; fix whitespace-slowdown
+(defun whitespace-post-command-hook() nil)
+
+;; homebrew path
+(push "/usr/local/bin" exec-path)
+
+;; no scroll bars
+(scroll-bar-mode -1)
+
+;; smoother scrolling
+ (setq scroll-step           1
+       scroll-conservatively 10000)
