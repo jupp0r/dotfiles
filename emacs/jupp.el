@@ -77,9 +77,9 @@
         (require 'rsense)))
 
 ;; tab stops
-(setq-default tab-width 4)
+(setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
-(setq-default c-basic-offset 4)
+(setq-default c-basic-offset 2)
 (setq-default ruby-basic-offset 2)
 
 (setq safe-local-variable-values
@@ -129,6 +129,11 @@
   (c-toggle-syntactic-indentation 1))
 (add-hook 'c-mode-common-hook 'set-c-mode-auto-stuff)
 
+;; disable flyspell for programming modes
+(defun disable-flyspell ()
+  (flyspell-mode 0))
+(add-hook 'c-mode-common-hook 'disable-flyspell)
+
 ;; homebrew path
 (push "/usr/local/bin" exec-path)
 
@@ -146,3 +151,6 @@
   (workgroups-mode 1)
   (when (file-exists-p workgroup-custom-setting-file)
     (wg-load workgroup-custom-setting-file)))
+
+;; maximize in the end
+(ns-toggle-fullscreen)
