@@ -32,8 +32,39 @@
 ;; get terminal colors for cmake builds
 (add-to-list 'compilation-environment "EMACS=n")
 
+;; cmake mode
+(require 'cmake-mode)
+(setq auto-mode-alist
+      (append '(("CMakeLists\\.txt\\'" . cmake-mode)
+                ("\\.cmake\\'" . cmake-mode))
+              auto-mode-alist))
+
 ;; scroll to compilation buffer bottom
 (setq-default compilation-scroll-output t)
+
+;; gtags
+(defun djcb-gtags-create-or-update ()
+  "create or update the gnu global tag file"
+  (interactive)
+  (if (not (= 0 (call-process "global" nil nil nil " -p"))) ; tagfile doesn't exist?
+    (let ((olddir default-directory)
+          (topdir (read-directory-name
+                    "gtags: top of source tree:" default-directory)))
+      (cd topdir)
+      (shell-command "gtags && echo 'created tagfile'")
+      (cd olddir)) ; restore
+    ;;  tagfile already exists; update it
+    (shell-command "global -u && echo 'updated tagfile'")))
+(add-hook 'gtags-mode-hook
+  (lambda()
+    (local-set-key (kbd "M-.") 'gtags-find-tag)   ; find a tag, also M-.
+    (local-set-key (kbd "M-,") 'gtags-find-rtag)))  ; reverse tag
+
+(add-hook 'c-mode-common-hook
+  (lambda ()
+    (require 'gtags)
+    (gtags-mode t)
+    (djcb-gtags-create-or-update)))
 
 ;; cursor as bar
 (add-to-list 'default-frame-alist '(cursor-type . bar))
@@ -71,26 +102,32 @@
 (global-set-key (kbd "C-c c") 'c-w-c)
 
 ;; no sound, but visible bell
-(setq-default visible-bell t)
+(setq ring-bell-function 'ignore)
 
 (prefer-coding-system 'utf-8)
 
 ;;(setq font-lock-unfontify-region-function 'ansi-color-unfontify-region)
 
-;; workgroups
-(require 'workgroups)
-(let ((workgroup-custom-setting-file "/Users/jupp/.workgroups/beleg"))
-  (setq wg-prefix-key (kbd "C-z"))
-  (workgroups-mode 1)
-  (when (file-exists-p workgroup-custom-setting-file)
-    (wg-load workgroup-custom-setting-file)))
 
 ;; I use google C coding style
+(require 'google-c-style)
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 (add-hook 'c-mode-common-hook 'google-make-newline-indent)
 
 ;; fix whitespace-slowdown
 (defun whitespace-post-command-hook() nil)
+
+;; require final newlines
+(setq require-final-newline t)
+
+;; auto newline, hungry delete, etc
+(defun set-c-mode-auto-stuff ()
+  (c-toggle-electric-state 1)
+  (c-toggle-auto-newline 1)
+  (c-toggle-hungry-state 1)
+  (subword-mode 1)
+  (c-toggle-syntactic-indentation 1))
+(add-hook 'c-mode-common-hook 'set-c-mode-auto-stuff)
 
 ;; homebrew path
 (push "/usr/local/bin" exec-path)
@@ -101,3 +138,11 @@
 ;; smoother scrolling
 (setq scroll-step           1
       scroll-conservatively 10000)
+
+;; workgroups
+(require 'workgroups)
+(let ((workgroup-custom-setting-file "/Users/jupp/.workgroups/beleg"))
+  (setq wg-prefix-key (kbd "C-z"))
+  (workgroups-mode 1)
+  (when (file-exists-p workgroup-custom-setting-file)
+    (wg-load workgroup-custom-setting-file)))
