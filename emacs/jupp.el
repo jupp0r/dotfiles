@@ -1,3 +1,11 @@
+;; check for packages and install if needed
+(defvar jupp-packages
+  '(cmake-mode workgroups haml-mode))
+
+(dolist (p jupp-packages)
+  (when (not (package-installed-p p))
+    (package-install p))))
+
 ;; disable autosave
 (setq make-backup-files nil)
 
@@ -6,11 +14,9 @@
 ;; stop creating those #auto-save# files
 (setq auto-save-default nil)
 
-(if (equal window-system 'ns)
-    (
-     ;; allow for German umlauts via Alt-U <letter>
-     (setq mac-option-modifier nil)
-     (setq mac-function-modifier 'meta)))
+(when (equal window-system 'ns)
+  (setq mac-option-modifier nil)
+  (setq mac-function-modifier 'meta))
 
 ;; erlang mode
 (let ((erlang-emacs-dir "/usr/local/Cellar/erlang/R15B/lib/erlang/lib/tools-2.6.6.6/emacs"))
@@ -124,14 +130,14 @@
       scroll-conservatively 10000)
 
 
-(if (equal window-system 'ns)
+(when (equal window-system 'ns)
     ;; workgroups
-    ((require 'workgroups)
-     (let ((workgroup-custom-setting-file "/Users/jupp/.workgroups/beleg"))
-       (setq wg-prefix-key (kbd "C-z"))
-       (workgroups-mode 1)
-       (when (file-exists-p workgroup-custom-setting-file)
-         (wg-load workgroup-custom-setting-file)))
+  (require 'workgroups)
+  (let ((workgroup-custom-setting-file "/Users/jupp/.workgroups/beleg"))
+    (setq wg-prefix-key (kbd "C-z"))
+    (workgroups-mode 1)
+    (when (file-exists-p workgroup-custom-setting-file)
+      (wg-load workgroup-custom-setting-file)))
 
-     ;; maximize in the end
-     (ns-toggle-fullscreen)))
+  ;; maximize in the end
+  (ns-toggle-fullscreen))
