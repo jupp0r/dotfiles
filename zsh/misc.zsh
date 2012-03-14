@@ -34,14 +34,14 @@ if [ -d /usr/local/Cellar/ruby/1.9.3-p0/bin ] ; then
 fi
 
 # use emacs server if found running, otherwise standard emacs
-if [ -d /Applications/Emacs.app/Contents/MacOS ] ; then
-    export EDITOR="/Applications/Emacs.app/Contents/MacOS/Emacs"
-else
-    export EDITOR="emacs"
-fi
+export EDITOR="emacs -nw"
+
+alias emacs="emacs -nw"
+
+export TERM=xterm-256color
 
 # hashes
-hash -d beleg=~/uni/grosser_beleg/workspace/SystemModel_cmake
+hash -d beleg=~/projects/systemmodel
 
 export PATH MANPATH MONO_PATH PERL5LIB PKG_CONFIG_PATH
 

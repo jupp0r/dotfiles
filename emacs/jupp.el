@@ -6,9 +6,11 @@
 ;; stop creating those #auto-save# files
 (setq auto-save-default nil)
 
-;; allow for German umlauts via Alt-U <letter>
-(setq mac-option-modifier nil)
-(setq mac-function-modifier 'meta)
+(if (equal window-system 'ns)
+    (
+     ;; allow for German umlauts via Alt-U <letter>
+     (setq mac-option-modifier nil)
+     (setq mac-function-modifier 'meta)))
 
 ;; erlang mode
 (let ((erlang-emacs-dir "/usr/local/Cellar/erlang/R15B/lib/erlang/lib/tools-2.6.6.6/emacs"))
@@ -42,32 +44,9 @@
 ;; scroll to compilation buffer bottom
 (setq-default compilation-scroll-output t)
 
-;; gtags
-(defun djcb-gtags-create-or-update ()
-  "create or update the gnu global tag file"
-  (interactive)
-  (if (not (= 0 (call-process "global" nil nil nil " -p"))) ; tagfile doesn't exist?
-    (let ((olddir default-directory)
-          (topdir (read-directory-name
-                    "gtags: top of source tree:" default-directory)))
-      (cd topdir)
-      (shell-command "gtags && echo 'created tagfile'")
-      (cd olddir)) ; restore
-    ;;  tagfile already exists; update it
-    (shell-command "global -u && echo 'updated tagfile'")))
-(add-hook 'gtags-mode-hook
-  (lambda()
-    (local-set-key (kbd "M-.") 'gtags-find-tag)   ; find a tag, also M-.
-    (local-set-key (kbd "M-,") 'gtags-find-rtag)))  ; reverse tag
-
-(add-hook 'c-mode-common-hook
-  (lambda ()
-    (require 'gtags)
-    (gtags-mode t)
-    (djcb-gtags-create-or-update)))
-
-;; cursor as bar
+;; cursor as red bar
 (add-to-list 'default-frame-alist '(cursor-type . bar))
+(set-cursor-color "red")
 
 ;; rsense
 (let ((rsense-home-dir "/usr/local/Cellar/rsense/0.3/libexec"))
@@ -144,13 +123,15 @@
 (setq scroll-step           1
       scroll-conservatively 10000)
 
-;; workgroups
-(require 'workgroups)
-(let ((workgroup-custom-setting-file "/Users/jupp/.workgroups/beleg"))
-  (setq wg-prefix-key (kbd "C-z"))
-  (workgroups-mode 1)
-  (when (file-exists-p workgroup-custom-setting-file)
-    (wg-load workgroup-custom-setting-file)))
 
-;; maximize in the end
-(ns-toggle-fullscreen)
+(if (equal window-system 'ns)
+    ;; workgroups
+    ((require 'workgroups)
+     (let ((workgroup-custom-setting-file "/Users/jupp/.workgroups/beleg"))
+       (setq wg-prefix-key (kbd "C-z"))
+       (workgroups-mode 1)
+       (when (file-exists-p workgroup-custom-setting-file)
+         (wg-load workgroup-custom-setting-file)))
+
+     ;; maximize in the end
+     (ns-toggle-fullscreen)))
