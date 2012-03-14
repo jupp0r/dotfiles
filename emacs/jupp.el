@@ -4,7 +4,7 @@
 
 (dolist (p jupp-packages)
   (when (not (package-installed-p p))
-    (package-install p))))
+    (package-install p)))
 
 ;; disable autosave
 (setq make-backup-files nil)
@@ -91,8 +91,13 @@
 
 (prefer-coding-system 'utf-8)
 
-;;(setq font-lock-unfontify-region-function 'ansi-color-unfontify-region)
-
+;; ansi color hack
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ;; I use google C coding style
 (require 'google-c-style)
