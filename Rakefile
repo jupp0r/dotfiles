@@ -117,10 +117,6 @@ namespace :yasnippets do
   task :update do
     worker.update_submodule "#{registry.vendor_path}/yasnippets"
   end
-
-  task :post_build do
-    worker.symlink "#{registry.build_path}/yasnippets",
-  end
 end
 
 desc 'Remove symlinks, wipe cloned submodules, build dir'
