@@ -6,4 +6,7 @@
 	url = git://github.com/carlhuda/janus.git
 [submodule "support/vendor/emacs-prelude"]
 	path = support/vendor/emacs-prelude
-	url = git://github.com/jupp0r/emacs-prelude.git
+	url = git://github.com/bbatsov/emacs-prelude.git
+[submodule "support/vendor/yasnippets"]
+	path = support/vendor/yasnippets
+	url = git://github.com/jupp0r/yasnippets

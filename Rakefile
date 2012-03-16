@@ -76,8 +76,8 @@ end
 desc 'Reconfigure OSX settings'
 task :osx => :build do
   logger.denote 'Configuring osx...' do
-    worker.symlink "#{registry.osx_src_path}", 
-                        "#{registry.osx_path}"       
+    worker.symlink "#{registry.osx_src_path}",
+                        "#{registry.osx_path}"
     worker.chmod(0755, registry.osx_path)
     worker.go_and_run_all(registry.osx_path)
   end
@@ -110,6 +110,16 @@ namespace :emacs_prelude do
     Dir["#{registry.build_path}/emacs/*.el"].each do |src_el_path|
       worker.symlink(src_el_path, "#{registry.build_path}/emacs-prelude/personal/#{File.basename(src_el_path)}")
     end
+  end
+end
+
+namespace :yasnippets do
+  task :update do
+    worker.update_submodule "#{registry.vendor_path}/yasnippets"
+  end
+
+  task :post_build do
+    worker.symlink "#{registry.build_path}/yasnippets",
   end
 end
 

@@ -1,3 +1,7 @@
+;; set home dir var
+(defvar home-dir)
+(setq home-dir (expand-file-name "~"))
+
 ;; check for packages and install if needed
 (defvar jupp-packages
   '(cmake-mode workgroups haml-mode))
@@ -19,11 +23,14 @@
   (setq mac-function-modifier 'meta))
 
 ;; erlang mode
-(let ((erlang-emacs-dir "/usr/local/Cellar/erlang/R15B/lib/erlang/lib/tools-2.6.6.6/emacs"))
+(let
+    ((erlang-emacs-dir
+      "/usr/local/Cellar/erlang/R15B/lib/erlang/lib/tools-2.6.6.6/emacs"))
     (when (file-exists-p erlang-emacs-dir)
             (add-to-list 'load-path erlang-emacs-dir)
             (setq erlang-root-dir "/usr/local/Cellar/erlang/R15B")
-            (setq exec-path (cons "/usr/local/Cellar/erlang/R15B/bin" exec-path))
+            (setq exec-path
+                  (cons "/usr/local/Cellar/erlang/R15B/bin" exec-path))
             (require 'erlang-start)
             (require 'erlang-eunit)
             (add-hook 'erlang-mode-hook
@@ -33,6 +40,12 @@
                                            (interactive)
                                            (save-buffer)
                                            (erlang-eunit-compile-and-run-module-tests)))))))
+
+;; load custom yasnippets
+(let
+    ((custom-yas-dir (concat home-dir "/yasnippets")))
+  (when (file-exists-p custom-yas-dir)
+    (add-to-list 'yas/snippet-dirs custom-yas-dir)))
 
 ;; restore arrow key navigation
 (prelude-restore-arrow-keys)
@@ -46,6 +59,10 @@
       (append '(("CMakeLists\\.txt\\'" . cmake-mode)
                 ("\\.cmake\\'" . cmake-mode))
               auto-mode-alist))
+
+;; set user info
+(setq user-email-address "jupp0r@gmail.com")
+(setq user-full-name "Jupp Müller")
 
 ;; scroll to compilation buffer bottom
 (setq-default compilation-scroll-output t)
@@ -138,7 +155,7 @@
 (when (equal window-system 'ns)
     ;; workgroups
   (require 'workgroups)
-  (let ((workgroup-custom-setting-file "/Users/jupp/.workgroups/beleg"))
+  (let ((workgroup-custom-setting-file  (concat home-dir "/.workgroups/beleg")))
     (setq wg-prefix-key (kbd "C-z"))
     (workgroups-mode 1)
     (when (file-exists-p workgroup-custom-setting-file)
