@@ -34,14 +34,29 @@ if [ -d /usr/local/Cellar/ruby/1.9.3-p0/bin ] ; then
 fi
 
 # use emacs server if found running, otherwise standard emacs
-export EDITOR="emacs -nw"
-
-alias emacs="emacs -nw"
-
-export TERM=xterm-256color
+if [ -d /Applications/Emacs.app/Contents/MacOS ] ; then
+    export EDITOR="/Applications/Emacs.app/Contents/MacOS/Emacs"
+else
+    export EDITOR="emacs"
+fi
 
 # hashes
 hash -d beleg=~/projects/systemmodel
+
+# rvm
+if [ -f $HOME/rvm/scripts/rvm ]; then
+    source $HOME/.rvm/scripts/rvm
+fi
+
+#pythonbrew
+[[ -s $HOME/.pythonbrew/etc/bashrc ]] && source $HOME/.pythonbrew/etc/bashrc
+
+#tmuxinator
+[[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
+
+export TERM="xterm-256color"
+[ -n "$TMUX" ] && export TERM="screen-256color"
+
 
 export PATH MANPATH MONO_PATH PERL5LIB PKG_CONFIG_PATH
 

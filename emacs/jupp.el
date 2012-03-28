@@ -43,9 +43,9 @@
 
 ;; load custom yasnippets
 (let
-    ((custom-yas-dir (concat home-dir "/yasnippets")))
+    ((custom-yas-dir (concat home-dir "/.yasnippets")))
   (when (file-exists-p custom-yas-dir)
-    (add-to-list 'yas/snippet-dirs custom-yas-dir)))
+    (yas/load-directory custom-yas-dir)))
 
 ;; restore arrow key navigation
 (prelude-restore-arrow-keys)
@@ -61,7 +61,7 @@
               auto-mode-alist))
 
 ;; set user info
-(setq user-email-address "jupp0r@gmail.com")
+(setq user-mail-address "jupp0r@gmail.com")
 (setq user-full-name "Jupp Müller")
 
 ;; scroll to compilation buffer bottom
