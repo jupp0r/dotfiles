@@ -152,12 +152,13 @@
       scroll-conservatively 10000)
 
 
+  ;; workgroups
+(require 'workgroups)
+(workgroups-mode 1)
+(setq wg-prefix-key (kbd "C-z"))
+
 (when (equal window-system 'ns)
-    ;; workgroups
-  (require 'workgroups)
   (let ((workgroup-custom-setting-file  (concat home-dir "/.workgroups/beleg")))
-    (setq wg-prefix-key (kbd "C-z"))
-    (workgroups-mode 1)
     (when (file-exists-p workgroup-custom-setting-file)
       (wg-load workgroup-custom-setting-file)))
 
