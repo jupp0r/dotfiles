@@ -29,3 +29,44 @@ set-option -g display-panes-colour colour166 #orange
 
 # clock
 set-window-option -g clock-mode-colour colour64 #green
+
+# zoom mode
+unbind m
+bind m new-window -d -n tmux-zoom 'clear && echo TMUX ZOOM && read' \; swap-pane -s tmux-zoom.1 \; select-window -t tmux-zoom
+unbind w
+bind w last-window \; swap-pane -s tmux-zoom.1 \; kill-window -t tmux-zoom
+
+# key bindings on os x
+set-window-option -g xterm-keys on
+
+# more responsiveness
+set -sg escape-time 1
+
+# start window and pane counting at 1
+set -g base-index 1
+set -g pane-base-index 1
+
+# reload config
+bind r source-file ~/.tmux.conf\; display "Reloaded!"
+
+# enable mouse for now
+set -g mode-mouse off
+
+# change prefix
+unbind C-b
+set -g prefix C-o
+bind C-o send-prefix
+
+# splitting windows
+bind \ split-window -h
+bind - split-window -v
+
+# resize panes, this makes only sense looking at a dvorak keyboard :)
+bind -r A resize-pane -L 5
+bind -r O resize-pane -D 5
+bind -r E resize-pane -R 5
+bind -r < resize-pane -U 5
+
+# emacs keys for everything
+setw -g mode-keys emacs
+

@@ -37,8 +37,11 @@ fi
 if [ -d /Applications/Emacs.app/Contents/MacOS ] ; then
     export EDITOR="/Applications/Emacs.app/Contents/MacOS/Emacs"
 else
-    export EDITOR="emacs"
+    export EDITOR="emacs -nw"
 fi
+
+# use cmline emacs by default
+alias emacs='emacs -nw'
 
 # hashes
 hash -d beleg=~/projects/systemmodel
@@ -55,8 +58,6 @@ fi
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
 
 export TERM="xterm-256color"
-[ -n "$TMUX" ] && export TERM="screen-256color"
-
 
 export PATH MANPATH MONO_PATH PERL5LIB PKG_CONFIG_PATH
 
@@ -70,6 +71,9 @@ setopt interactive_comments # why not?
 setopt list_types           # show ls -F style marks in file completion
 setopt no_beep              # don't beep on error
 setopt numeric_glob_sort    # when globbing numbered files, use real counting
+
+# enable ssh keychain lookup for osx
+zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 bindkey -e # use emacs keymap
 
