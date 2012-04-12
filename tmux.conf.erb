@@ -1,3 +1,6 @@
+# os x clipboard fix
+set-option -g default-command "reattach-to-user-namespace -l zsh"
+
 #### COLOUR
 
 # default statusbar colors
@@ -70,3 +73,5 @@ bind -r < resize-pane -U 5
 # emacs keys for everything
 setw -g mode-keys emacs
 
+# show battery status
+set -g status-right "#(~/bin/battery Discharging; ~/bin/battery Charging) | #h | %e %B %R"
