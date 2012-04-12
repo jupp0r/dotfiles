@@ -147,12 +147,17 @@
 ;; no scroll bars
 (scroll-bar-mode -1)
 
-;; smoother scrolling
-(setq scroll-step           1
-      scroll-conservatively 10000)
+;; add nicer vertical separator
+(add-hook 'after-change-major-mode-hook
+          '(lambda ()
+             (unless buffer-display-table
+              (setq buffer-display-table (make-display-table)))
+             (set-display-table-slot
+              buffer-display-table
+              'vertical-border
+              (make-glyph-code ?│))))
 
-
-  ;; workgroups
+;; workgroups
 (require 'workgroups)
 (workgroups-mode 1)
 (setq wg-prefix-key (kbd "C-z"))
